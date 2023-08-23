@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Movies } from 'src/app/interface/baseData-movie';
-import { MovieServiceService } from 'src/app/services/movie.service';
+import { MovieService } from 'src/app/services/movie.service';
 
 @Component({
   selector: 'app-home-movie',
@@ -12,7 +12,7 @@ export class HomeMovieComponent implements OnInit {
   movies: Movies[] = []
 
 
-  constructor(private _movieService: MovieServiceService) { }
+  constructor(private _movieService: MovieService) { }
 
   ngOnInit(): void {
     this.getMovies()

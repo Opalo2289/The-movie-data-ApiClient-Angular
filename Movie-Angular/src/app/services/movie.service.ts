@@ -1,25 +1,91 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Movies } from '../interface/baseData-movie';
 import { ApiResponse } from '../interface/apiResponse-movie';
+import { catchError, map, tap } from 'rxjs/operators';
+import { MessageService } from './messages.service';
+import { BASE_API_URL } from '../constants/constants';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MovieServiceService {
+export class MovieService {
 
-  private moviesUrl = 'https://api.themoviedb.org/3/discover/movie?&api_key=859b9a5b3fb8156847720994bdacd732';  // URL to web api
+
+  private moviesUrl = BASE_API_URL
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _messageService: MessageService) { }
 
 
   getMovies(): Observable<ApiResponse<Movies>> {
-    return  this._http.get<ApiResponse<Movies>>(this.moviesUrl)
+    return this._http.get<ApiResponse<Movies>>(this.moviesUrl)
+      .pipe(
+        tap(_ => this.log('fetched movies')),
+        catchError(this.handleError<ApiResponse<Movies>>('getMovies'))
+      )
+  };
+
+  getMovieById(id: number): Observable<ApiResponse<Movies>> {
+
+    const url = `${this.moviesUrl}/{id}`;
+
+    return this._http.get<ApiResponse<Movies>>(url).pipe(
+      tap(_ => this.log(`fetched movie id=${id}`)),
+      catchError(this.handleError<ApiResponse<Movies>>(`getMovieById id=${id}`))
+    );
+
+  };
+
+
+/* GET heroes whose name contains search term */
+searchMovies(term: string): Observable<ApiResponse<Movies>> {
+  if (!term.trim()) {
+    // Si no hay un término de búsqueda, retorna un arreglo vacío.
+    return of(); //hay que mirar que pasa aqui 
+  }
+  
+  return this._http.get<ApiResponse<Movies>>(`${this.moviesUrl}/?original_title=${term}`).pipe(
+    tap(response => {
+      if (response.results.length > 0) {
+        this.log(`found movies matching "${term}"`);
+      } else {
+        this.log(`no movies matching "${term}"`);
+      }
+    }),
+    catchError(this.handleError<ApiResponse<Movies>>('searchMovies'))
+  );
+}
+
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   *
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  /** Log a HeroService message with the MessageService */
+  private log(message: string) {
+    this._messageService.add(`HeroService: ${message}`);
   }
 }

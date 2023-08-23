@@ -5,9 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { ModulesToolsModule } from './modules/modules-tools/modules-tools.module';
 
+
 import { AppComponent } from './app.component';
 import { HomeMovieComponent } from './components/home-movie/home-movie.component';
-import { MovieServiceService } from './services/movie.service';
+import { MessagesComponent } from './messages/messages/messages.component';
+
 
 
 
@@ -18,12 +20,14 @@ import { MovieServiceService } from './services/movie.service';
     declarations: [
         AppComponent,
         HomeMovieComponent,
+        MessagesComponent,
+       
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ModulesToolsModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
