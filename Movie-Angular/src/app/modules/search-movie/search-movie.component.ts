@@ -17,6 +17,7 @@ import { ApiResponse } from 'src/app/interface/apiResponse-movie';
 })
 export class SearchMovieComponent implements OnInit {
 
+
   movies$!: Observable<ApiResponse<Movies>>;
   private searchTerms = new Subject<string>();
 

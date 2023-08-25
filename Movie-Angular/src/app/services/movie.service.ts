@@ -25,7 +25,7 @@ export class MovieService {
       .pipe(
         tap(_ => this.log('fetched movies')),
         catchError(this.handleError<ApiResponse<Movies>>('getMovies'))
-      )
+      );
   };
 
   getMovieById(id: number): Observable<ApiResponse<Movies>> {
@@ -39,9 +39,11 @@ export class MovieService {
 
 /* GET heroes whose name contains search term */
 searchMovies(term: string): Observable<ApiResponse<Movies>> {
+
   if (!term.trim()) {
+  return this.getMovies()
     // Si no hay un término de búsqueda, retorna un arreglo vacío.
-    return of ({ page: 0, total_pages: 0, total_results: 0, results: [] }); //TODO: Definir esto de manera que pueda extraerse del  Observable<ApiResponse<Movies>> directamente  
+    // return of ({ page: 0, total_pages: 0, total_results: 0, results: [] }); //TODO: Definir esto de manera que pueda extraerse del  Observable<ApiResponse<Movies>> directamente
   }
   
   return this._http.get<ApiResponse<Movies>>(`${SEARCH_MOVIE_URL}&query=${term}`).pipe(
