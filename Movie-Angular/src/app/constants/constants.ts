@@ -1,8 +1,4 @@
-export const BASE_API_URL = "https://api.themoviedb.org/3/";
 const API_KEY = '859b9a5b3fb8156847720994bdacd732';
+export const BASE_API_URL = "https://api.themoviedb.org/3/";
 export const DISCOVER_MOVIE_URL = `${BASE_API_URL}/discover/movie?&api_key=${API_KEY}`;
 export const SEARCH_MOVIE_URL = `${BASE_API_URL}/search/movie?&api_key=${API_KEY}`;
-
-export const BASE_CHARACTER_API_URL = `${BASE_API_URL}/character`;
-export const BASE_EPISODE_API_URL = `${BASE_API_URL}/episode`;
-export const BASE_LOCATION_API_URL = `${BASE_API_URL}/location`;

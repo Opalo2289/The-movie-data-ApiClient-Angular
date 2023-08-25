@@ -17,12 +17,11 @@ import { ApiResponse } from 'src/app/interface/apiResponse-movie';
 })
 export class SearchMovieComponent implements OnInit {
 
-  movies$!: Observable<ApiResponse<Movies>>
-  private searchTerms = new Subject<string>()
+  movies$!: Observable<ApiResponse<Movies>>;
+  private searchTerms = new Subject<string>();
 
-  // public results: Movies[] = []
 
-  constructor(private _movieService: MovieService) { }
+  constructor(private _movieService: MovieService) { };
 
 
   search(term: string): void {
@@ -39,14 +38,7 @@ export class SearchMovieComponent implements OnInit {
       // switch to new search observable each time the term changes
       switchMap((term: string) => this._movieService.searchMovies(term))
 
-    )
-
-  //   this.movies$.subscribe({
-  //     next: (response: ApiResponse<Movies>) => {
-  //       this.results = response.results
-  //     }
-  //   }
-  //   )
-   };
+    );
+  };
 
 };
