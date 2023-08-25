@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {
-   debounceTime, distinctUntilChanged, switchMap
- } from 'rxjs/operators';
+  debounceTime, distinctUntilChanged, switchMap
+} from 'rxjs/operators';
 
 import { MovieService } from 'src/app/services/movie.service';
 import { Movies } from 'src/app/interface/baseData-movie';
@@ -15,14 +15,16 @@ import { ApiResponse } from 'src/app/interface/apiResponse-movie';
   templateUrl: './search-movie.component.html',
   styleUrls: ['./search-movie.component.css']
 })
-export class SearchMovieComponent implements OnInit{
+export class SearchMovieComponent implements OnInit {
 
   movies$!: Observable<ApiResponse<Movies>>
   private searchTerms = new Subject<string>()
 
-  constructor(private _movieService: MovieService) {}
+  // public results: Movies[] = []
 
-  
+  constructor(private _movieService: MovieService) { }
+
+
   search(term: string): void {
     this.searchTerms.next(term);
   };
@@ -38,6 +40,13 @@ export class SearchMovieComponent implements OnInit{
       switchMap((term: string) => this._movieService.searchMovies(term))
 
     )
-  }
 
-}
+  //   this.movies$.subscribe({
+  //     next: (response: ApiResponse<Movies>) => {
+  //       this.results = response.results
+  //     }
+  //   }
+  //   )
+   };
+
+};

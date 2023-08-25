@@ -5,14 +5,13 @@ import { Movies } from '../interface/baseData-movie';
 import { ApiResponse } from '../interface/apiResponse-movie';
 import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './messages.service';
-import { BASE_API_URL } from '../constants/constants';
+import { BASE_API_URL, DISCOVER_MOVIE_URL, SEARCH_MOVIE_URL } from '../constants/constants';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-
 
   private moviesUrl = BASE_API_URL
 
@@ -24,7 +23,7 @@ export class MovieService {
 
 
   getMovies(): Observable<ApiResponse<Movies>> {
-    return this._http.get<ApiResponse<Movies>>(this.moviesUrl)
+    return this._http.get<ApiResponse<Movies>>(DISCOVER_MOVIE_URL)
       .pipe(
         tap(_ => this.log('fetched movies')),
         catchError(this.handleError<ApiResponse<Movies>>('getMovies'))
@@ -47,17 +46,13 @@ export class MovieService {
 searchMovies(term: string): Observable<ApiResponse<Movies>> {
   if (!term.trim()) {
     // Si no hay un término de búsqueda, retorna un arreglo vacío.
-    return of(); //hay que mirar que pasa aqui 
+    return of ({ page: 0, total_pages: 0, total_results: 0, results: [] }); //TODO: Definir esto de manera que pueda extraerse del  Observable<ApiResponse<Movies>> directamente  
   }
   
-  return this._http.get<ApiResponse<Movies>>(`${this.moviesUrl}/?original_title=${term}`).pipe(
-    tap(response => {
-      if (response.results.length > 0) {
-        this.log(`found movies matching "${term}"`);
-      } else {
-        this.log(`no movies matching "${term}"`);
-      }
-    }),
+  return this._http.get<ApiResponse<Movies>>(`${SEARCH_MOVIE_URL}&query=${term}`).pipe(
+    tap(x => x.results.length ?
+      this.log(`found movies matching "${term}"`) :
+      this.log(`no movies matching "${term}"`)),
     catchError(this.handleError<ApiResponse<Movies>>('searchMovies'))
   );
 }
