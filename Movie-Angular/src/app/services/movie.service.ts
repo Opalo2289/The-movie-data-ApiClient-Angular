@@ -20,8 +20,8 @@ export class MovieService {
   constructor(private _http: HttpClient, private _messageService: MessageService) { }
 
 
-  getMovies(): Observable<ApiResponse<Movies>> {
-    return this._http.get<ApiResponse<Movies>>(DISCOVER_MOVIE_URL)
+  getMovies(page: number): Observable<ApiResponse<Movies>> {
+    return this._http.get<ApiResponse<Movies>>(`${DISCOVER_MOVIE_URL}&page=${page}`)
       .pipe(
         tap(_ => this.log('fetched movies')),
         catchError(this.handleError<ApiResponse<Movies>>('getMovies'))
@@ -38,15 +38,15 @@ export class MovieService {
 
 
 /* GET heroes whose name contains search term */
-searchMovies(term: string): Observable<ApiResponse<Movies>> {
+searchMovies(term: string, page: number): Observable<ApiResponse<Movies>> {
 
   if (!term.trim()) {
-  return this.getMovies()
+  return this.getMovies(page)
     // Si no hay un término de búsqueda, retorna un arreglo vacío.
     // return of ({ page: 0, total_pages: 0, total_results: 0, results: [] }); //TODO: Definir esto de manera que pueda extraerse del  Observable<ApiResponse<Movies>> directamente
   }
   
-  return this._http.get<ApiResponse<Movies>>(`${SEARCH_MOVIE_URL}&query=${term}`).pipe(
+  return this._http.get<ApiResponse<Movies>>(`${SEARCH_MOVIE_URL}&query=${term}&page=${page}`).pipe(
     tap(x => x.results.length ?
       this.log(`found movies matching "${term}"`) :
       this.log(`no movies matching "${term}"`)),

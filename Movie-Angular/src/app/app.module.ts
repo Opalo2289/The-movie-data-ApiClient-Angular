@@ -9,6 +9,7 @@ import { ModulesToolsModule } from './modules/modules-tools/modules-tools.module
 import { AppComponent } from './app.component';
 import { HomeMovieComponent } from './components/home-movie/home-movie.component';
 import { MessagesComponent } from './messages/messages/messages.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -28,6 +29,7 @@ import { MessagesComponent } from './messages/messages/messages.component';
         AppRoutingModule,
         ModulesToolsModule,
         HttpClientModule,
+        BrowserAnimationsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
