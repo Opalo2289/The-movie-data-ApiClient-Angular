@@ -32,29 +32,6 @@
     </div>
   </div>
 
-  
-<!-- 
-  <mat-paginator  
-  [length]="Movies.total_results"
-  [pageSize]="Movies.total_pages"
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  (page)="onPageChange($event)"
-  [pageIndex]="Movies.page"
-  aria-label="Select page">>
-
-  </mat-paginator> -->
-
-  <!-- <mat-paginator #paginator
-               class="demo-paginator"
-               (page)="handlePageEvent($event)"
-               [length]="Movies.total_results"
-               [pageSize]="Movies.total_pages"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               [pageIndex]="Movies.page"
-               aria-label="Select page">
-</mat-paginator> -->
-
-
 <mat-paginator #paginator
                class="demo-paginator"
                (page)="onPageChange($event)"
@@ -63,7 +40,7 @@
                [disabled]="disabled"
                [showFirstLastButtons]="showFirstLastButtons"
                [hidePageSize]="hidePageSize"
-               [pageIndex]="Movies.page-1"
+               [pageIndex]="Movies.page - 1"
                aria-label="Select page">
 </mat-paginator>
 

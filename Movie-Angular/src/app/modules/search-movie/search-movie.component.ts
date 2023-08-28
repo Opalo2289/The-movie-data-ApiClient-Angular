@@ -24,12 +24,15 @@ export class SearchMovieComponent implements OnInit {
 
   movies$!: Observable<ApiResponse<Movies>>;
   private searchTerms = new Subject<string>();
-  public page: number = 1
+  public page: number = 1;
+  private term: string = ""
   length = 10000;
   hidePageSize = false;
   showPageSizeOptions = false;
   showFirstLastButtons = true;
   disabled = false;
+
+
 
   constructor(private _movieService: MovieService) { };
 
@@ -37,7 +40,21 @@ export class SearchMovieComponent implements OnInit {
 
     this.getMovies(this.page)
     this.setupSearchObservable();
+  
   };
+
+
+  getMovies(page: number): void {
+    this.movies$ = this._movieService.getMovies(page)
+  };
+
+
+  search(term: string): void {
+    this.term = term
+    console.log('busqueda term', this.term)
+    this.searchTerms.next(this.term);
+  };
+
 
   setupSearchObservable(): void {
     this.movies$ = this.searchTerms.pipe(
@@ -46,28 +63,29 @@ export class SearchMovieComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this._movieService.searchMovies(term, this.page))
     );
-  }
+  };
 
-  getMovies(page: number): void {
-    this.movies$ = this._movieService.getMovies(page)
-  }
+
+  // onPageChange(e: PageEvent, term: string): void {
+  //   console.log("page", e)
+  //   this.page = e.pageIndex + 1;
+  //   this.searchTerms.next(term);
+  // };
+
 
   onPageChange(e: PageEvent): void {
-    console.log("page", e)
-    this.page = e.pageIndex + 1;
-    
-    this.movies$.pipe(isEmpty()).subscribe(isEmpty => {
-      if (isEmpty) {
-        // El observable searchTerms está vacío
-        console.log('searchTerms está vacío');
-        this.getMovies(this.page);
-      }
-    });
-    
-  }
+    console.log("page", e);
+    console.log('term vacío', this.term);
 
-  search(term: string): void {
-    this.searchTerms.next(term);
-  };
+    if (this.term == "") {
+      this.page = e.pageIndex + 1;
+      this.getMovies(this.page);
+    
+    } else {
+      
+      this.searchTerms.next(this.term);
+      
+    }
+  }
 
 };
