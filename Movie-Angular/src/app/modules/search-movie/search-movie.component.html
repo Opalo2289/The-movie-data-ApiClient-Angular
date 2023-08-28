@@ -1,6 +1,11 @@
 <section>
-  <label for="search-box">Movie Search</label>
-  <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  <label class="boxFont" for="search-box">Movie Search</label><br><br>
+  <input class="box" #searchBox id="search-box" (input)="search(searchBox.value)" />
+
+  <!-- <div class="form-floating mb-3">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+    <label for="floatingInput">Email address</label>
+  </div> -->
 </section>
 
 <div *ngIf="movies$ | async as Movies">
@@ -32,38 +37,15 @@
     </div>
   </div>
 
-  
-<!-- 
-  <mat-paginator  
-  [length]="Movies.total_results"
-  [pageSize]="Movies.total_pages"
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  (page)="onPageChange($event)"
-  [pageIndex]="Movies.page"
-  aria-label="Select page">>
-
-  </mat-paginator> -->
-
-  <!-- <mat-paginator #paginator
-               class="demo-paginator"
-               (page)="handlePageEvent($event)"
-               [length]="Movies.total_results"
-               [pageSize]="Movies.total_pages"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               [pageIndex]="Movies.page"
-               aria-label="Select page">
-</mat-paginator> -->
-
-
 <mat-paginator #paginator
-               class="demo-paginator"
+               class="paginator"
                (page)="onPageChange($event)"
                [length]="length"
                [pageSize]="Movies.results.length"
                [disabled]="disabled"
                [showFirstLastButtons]="showFirstLastButtons"
                [hidePageSize]="hidePageSize"
-               [pageIndex]="Movies.page-1"
+               [pageIndex]="Movies.page - 1"
                aria-label="Select page">
 </mat-paginator>
 
