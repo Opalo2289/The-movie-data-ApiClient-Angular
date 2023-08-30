@@ -1,12 +1,12 @@
 
 <app-header></app-header><br><br>
 
-<body>
+<body class="font">
     
-    <main id="main">
+    <main id="main"><br><br>
 
       <!-- ======= Portfolio Details Section ======= -->
-      <section id="portfolio-details" class="portfolio-details">
+      <section id="portfolio-details" class="portfolio-details" *ngIf="movie$ | async as Movies">
         <div class="container">
   
           <div class="row gy-4">
@@ -16,7 +16,7 @@
                 <div class="swiper-wrapper align-items-center">
   
                   <div class="swiper-slide">
-                    <img src="https://w0.peakpx.com/wallpaper/642/965/HD-wallpaper-avatar-movie-avatar-games.jpg" alt="">
+                    <img src="https://image.tmdb.org/t/p/original/{{Movies.backdrop_path}}" alt="">
                   </div>
 
                 </div>
@@ -26,18 +26,16 @@
   
             <div class="col-lg-4">
               <div class="portfolio-info">
-                <h3>Project information</h3>
+                <h3>{{Movies.original_title}}</h3>
                 <ul>
-                  <li><strong>Category</strong>: Web design</li>
-                  <li><strong>Client</strong>: ASU Company</li>
-                  <li><strong>Project date</strong>: 01 March, 2020</li>
-                  <li><strong>Project URL</strong>: <a href="#">www.example.com</a></li>
+                  <li><strong>Titulo en Español:</strong> {{Movies.title}}</li>
+                  <li><strong>Project Date:</strong> {{Movies.release_date}}</li>
                 </ul>
               </div>
               <div class="portfolio-description">
-                <h2>This is an example of portfolio detail</h2>
+                <h2>Description</h2>
                 <p>
-                  Autem ipsum nam porro corporis rerum. Quis eos dolorem eos itaque inventore commodi labore quia quia. Exercitationem repudiandae officiis neque suscipit non officia eaque itaque enim. Voluptatem officia accusantium nesciunt est omnis tempora consectetur dignissimos. Sequi nulla at esse enim cum deserunt eius.
+                  {{Movies.overview}}
                 </p>
               </div>
             </div>
@@ -45,19 +43,10 @@
           </div>
   
         </div>
-        <section>
-          <div *ngIf="movie$ | async as Movies">
-              <h4>{{Movies.id}}</h4>
-              
-              <img src="https://image.tmdb.org/t/p/original/{{Movies.backdrop_path}}" class="img-fluid"
-              alt="Peliculas en tendencia">
-            
-            </div>
-        </section>
+        
       </section><!-- End Portfolio Details Section -->
     
     </main>
     <app-footer></app-footer>
-    
 </body>
 

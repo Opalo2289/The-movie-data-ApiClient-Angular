@@ -28,12 +28,13 @@ export class DetailMovieComponent implements OnInit{
   
   
   ngOnInit(): void {
-    this.getMovieById
+    this.getMovieById()
   };
 
   getMovieById(): void {
     const id = Number(this._route.snapshot.paramMap.get('id'));
     this.movie$ = this._movieService.getMovieById(id);
+
   };
 
 }
