@@ -45,9 +45,19 @@
           </div>
   
         </div>
+        <section>
+          <div *ngIf="movie$ | async as Movies">
+              <h4>{{Movies.id}}</h4>
+              
+              <img src="https://image.tmdb.org/t/p/original/{{Movies.backdrop_path}}" class="img-fluid"
+              alt="Peliculas en tendencia">
+            
+            </div>
+        </section>
       </section><!-- End Portfolio Details Section -->
     
     </main>
     <app-footer></app-footer>
     
 </body>
+

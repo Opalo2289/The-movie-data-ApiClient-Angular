@@ -5,7 +5,7 @@ import { Movies } from '../interface/baseData-movie';
 import { ApiResponse } from '../interface/apiResponse-movie';
 import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './messages.service';
-import { DISCOVER_MOVIE_URL, SEARCH_MOVIE_URL } from '../constants/constants';
+import { DISCOVER_MOVIE_URL, MOVIE_URL, SEARCH_MOVIE_URL } from '../constants/constants';
 
 
 @Injectable({
@@ -28,10 +28,11 @@ export class MovieService {
       );
   };
 
-  getMovieById(id: number): Observable<ApiResponse<Movies>> {
-    return this._http.get<ApiResponse<Movies>>(DISCOVER_MOVIE_URL).pipe(
+  getMovieById(id: number): Observable<Movies> {
+
+    return this._http.get<Movies>(MOVIE_URL.replace(':movie_id', id.toString())).pipe(
       tap(_ => this.log(`fetched movie id=${id}`)),
-      catchError(this.handleError<ApiResponse<Movies>>(`getMovieById id=${id}`))
+      catchError(this.handleError<Movies>(`getMovieById id=${id}`))
     );
 
   };

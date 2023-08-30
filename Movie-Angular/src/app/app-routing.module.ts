@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   // { path: '**', redirectTo: 'home', component:HomeMovieComponent }, 
   { path: 'home', component: HomeMovieComponent},
-  { path: 'detalle', loadComponent: () => import ('./components/detail-movie/detail-movie.component').then(mod => mod.DetailMovieComponent)},
+  { path: 'detalle/:id', loadComponent: () => import ('./components/detail-movie/detail-movie.component').then(mod => mod.DetailMovieComponent)},
 ];
 
 @NgModule({
