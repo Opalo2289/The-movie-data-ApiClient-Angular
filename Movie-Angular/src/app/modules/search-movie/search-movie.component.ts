@@ -34,6 +34,8 @@ export class SearchMovieComponent implements OnInit {
 
 
 
+
+
   constructor(private _movieService: MovieService) { };
 
   ngOnInit(): void {
